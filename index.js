@@ -15,46 +15,47 @@ const app = Vue.createApp({
     return {
       tasks: [],
       showAddTask: false,
+      defaultTasks: [
+        {
+          id: 1,
+          title: 'Go to the store',
+          day: 'Monday',
+          reminder: true,
+          completed: true
+        },
+        {
+          id: 2,
+          title: 'Finish screencast',
+          day: 'Monday',
+          reminder: false,
+          completed: false
+        },
+        {
+          id: 3,
+          title: 'Clear inbox',
+          day: 'Tuesday',
+          reminder: true,
+          completed: false
+        },
+        {
+          id: 4,
+          title: 'Make dinner',
+          day: 'Wednesday',
+          reminder: false,
+          completed: false
+        },
+        {
+          id: 5,
+          title: 'Clean room',
+          day: 'Thursday',
+          reminder: true,
+          completed: true
+        }
+      ],
     };
   },
   created() {
-    this.tasks = this.loadTasks() || [
-      {
-        id: 1,
-        title: 'Go to the store',
-        day: 'Monday',
-        reminder: true,
-        completed: true
-      },
-      {
-        id: 2,
-        title: 'Finish screencast',
-        day: 'Monday',
-        reminder: false,
-        completed: false
-      },
-      {
-        id: 3,
-        title: 'Clear inbox',
-        day: 'Tuesday',
-        reminder: true,
-        completed: false
-      },
-      {
-        id: 4,
-        title: 'Make dinner',
-        day: 'Wednesday',
-        reminder: false,
-        completed: false
-      },
-      {
-        id: 5,
-        title: 'Clean room',
-        day: 'Thursday',
-        reminder: true,
-        completed: true
-      }
-    ];
+    this.tasks = this.loadTasks()?.length ? this.loadTasks() : this.defaultTasks;
   },
   methods: {
     deleteTask(id) {
