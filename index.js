@@ -19,35 +19,35 @@ const app = Vue.createApp({
         {
           id: 1,
           title: 'Go to the store',
-          day: 'Monday',
+          day: this.randomDate(),
           reminder: true,
           completed: true
         },
         {
           id: 2,
           title: 'Finish screencast',
-          day: 'Monday',
+          day: this.randomDate(),
           reminder: false,
           completed: false
         },
         {
           id: 3,
           title: 'Clear inbox',
-          day: 'Tuesday',
+          day: this.randomDate(),
           reminder: true,
           completed: false
         },
         {
           id: 4,
           title: 'Make dinner',
-          day: 'Wednesday',
+          day: this.randomDate(),
           reminder: false,
           completed: false
         },
         {
           id: 5,
           title: 'Clean room',
-          day: 'Thursday',
+          day: this.randomDate(),
           reminder: true,
           completed: true
         }
@@ -81,6 +81,9 @@ const app = Vue.createApp({
       const load = localStorage.getItem('tasks');
       return load ? JSON.parse(load) : null;
     },
+    randomDate() {
+      return new Date(new Date().getTime() + Math.random() * 1000000000).toLocaleString(undefined, {"dateStyle":"medium"});
+    }
   },
 });
 
@@ -188,7 +191,7 @@ app.component('add-task', {
       const newTask = {
         id: Math.floor(Math.random() * 100000),
         title: this.text,
-        day: this.day,
+        day: new Date(this.day).toLocaleString(undefined, {"dateStyle":"medium"}),
         reminder: this.reminder,
       };
       this.text = '';
