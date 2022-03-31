@@ -155,7 +155,7 @@ app.component('add-task', {
       <input class="form-control" type="text" name="text" placeholder="Add Task" v-model="text" />
     </div>
     <div>
-      <label for="day">Day & Time</label>
+      <label for="day">Due Date</label>
       <input class="form-control" type="date" name="day" v-model="day" />
     </div>
     <div class="d-flex">
