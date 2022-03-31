@@ -3,7 +3,7 @@ const app = Vue.createApp({
 
     <div class="d-flex justify-content-between align-items-center">
       <app-header title="Task List"></app-header>
-      <app-button text="Add Task" color="" @click="() => showAddTask = !showAddTask"></app-button>
+      <add-button text="Add Task" :showAddTask="showAddTask" color="" @click="() => showAddTask = !showAddTask"></add-button>
     </div>
     <div v-show="showAddTask">
       <add-task @add-task="addTask"></add-task>
@@ -18,7 +18,7 @@ const app = Vue.createApp({
     };
   },
   created() {
-    this.tasks = [
+    this.tasks = this.loadTasks() || [
       {
         id: 1,
         title: 'Go to the store',
@@ -60,16 +60,26 @@ const app = Vue.createApp({
     deleteTask(id) {
       console.log('deleteTask', id);
       this.tasks = this.tasks.filter(task => task.id !== id);
+      this.storeTasks(this.tasks);
     },
     toggleReminder(id) {
       console.log('toggleReminder', id);
       const task = this.tasks.find(task => task.id === id);
       console.log(task);
       task.reminder = !task.reminder;
+      this.storeTasks(this.tasks);
     },
     addTask(task) {
       this.tasks.push(task);
-    }
+      this.storeTasks(this.tasks);
+    },
+    storeTasks(tasks) {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    },
+    loadTasks() {
+      const load = localStorage.getItem('tasks');
+      return load ? JSON.parse(load) : null;
+    },
   },
 });
 
@@ -80,17 +90,18 @@ app.component('app-header', {
   },
 });
 
-app.component('app-button', {
+app.component('add-button', {
   template: `
   
-    <button @click="onClick()" :style="{ backgroundColor: color, borderColor: color }" class="btn btn-primary">
-      {{text}}
+    <button @click="onClick()" :style="{ backgroundColor: color, borderColor: color }" class="shadow-none btn btn-outline-primary">
+      {{text}} <i class="ms-1 fas" :class="[showAddTask ? 'fa-chevron-down' : 'fa-chevron-right']"></i>
     </button>
   
   `,
   props: {
     text: String,
     color: String,
+    showAddTask: Boolean,
   },
   methods: {
     onClick() {
